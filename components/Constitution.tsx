@@ -350,11 +350,21 @@ const Constitution: React.FC = () => {
 
       {/* Signature Placeholder */}
       <div className="mt-24 pt-12 border-t border-gray-100 grid grid-cols-2 gap-12">
-        <div className="space-y-4">
+        <div className="space-y-4 relative">
+          <div className="absolute -top-10 left-4">
+            <p className="font-['Dancing_Script'] text-4xl text-gray-800 opacity-90 transform -rotate-3 select-none">
+              Sicheng Qian
+            </p>
+          </div>
           <div className="h-px bg-gray-300 w-full"></div>
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Sicheng Qian, President</p>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 relative">
+          <div className="absolute -top-10 left-4">
+            <p className="font-['Dancing_Script'] text-4xl text-gray-800 opacity-90 transform -rotate-2 select-none">
+              Wonjun Lee
+            </p>
+          </div>
           <div className="h-px bg-gray-300 w-full"></div>
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Wonjun Lee, Faculty Advisor</p>
         </div>

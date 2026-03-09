@@ -10,6 +10,8 @@ import { Mail, Github, Users, TrendingUp, BookOpen, Target, Code, Globe, ShieldC
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error', message?: string }>({ type: 'idle' });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -221,6 +223,29 @@ const App: React.FC = () => {
           </div>
         );
       case 'contact':
+        const handleSubmit = async (e: React.FormEvent) => {
+          e.preventDefault();
+          setStatus({ type: 'loading' });
+
+          try {
+            const response = await fetch('/api/apply', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+              setStatus({ type: 'success', message: 'Application submitted! Sicheng will be in touch soon.' });
+              setFormData({ name: '', email: '', message: '' });
+            } else {
+              const data = await response.json();
+              setStatus({ type: 'error', message: data.error || 'Failed to submit. Please try again.' });
+            }
+          } catch (error) {
+            setStatus({ type: 'error', message: 'Network error. Please try again later.' });
+          }
+        };
+
         return (
           <div className="max-w-3xl mx-auto px-4 py-12">
             <h2 className="text-3xl font-extrabold text-gray-900 mb-8 border-l-8 border-[#BB0000] pl-4">Get Involved</h2>
@@ -257,25 +282,59 @@ const App: React.FC = () => {
                  
                  <div className="mt-8 pt-8 border-t border-gray-100">
                     <h3 className="text-lg font-bold text-gray-900 mb-4">Application Form</h3>
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" placeholder="Brutus Buckeye" />
+                        <input 
+                          type="text" 
+                          required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" 
+                          placeholder="Brutus Buckeye" 
+                        />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" placeholder="name.#@osu.edu" />
+                        <input 
+                          type="email" 
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" 
+                          placeholder="name.#@osu.edu" 
+                        />
                       </div>
                       
-                      {/* Role selection removed - all applicants are general members by default */}
-
                       <div>
                         <label className="block text-sm font-medium text-gray-700">Additional Message / Background</label>
-                        <textarea className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" rows={4} placeholder="Tell us about your technical background (e.g., Python, Math) and why you want to join..." />
+                        <textarea 
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BB0000] focus:ring-[#BB0000] p-3 border" 
+                          rows={4} 
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          placeholder="Tell us about your technical background (e.g., Python, Math) and why you want to join..." 
+                        />
                       </div>
                       
-                      <button type="button" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
-                        Submit Application
+                      {status.type === 'success' && (
+                        <div className="p-4 bg-green-50 text-green-700 rounded-md text-sm">
+                          {status.message}
+                        </div>
+                      )}
+                      
+                      {status.type === 'error' && (
+                        <div className="p-4 bg-red-50 text-red-700 rounded-md text-sm">
+                          {status.message}
+                        </div>
+                      )}
+
+                      <button 
+                        type="submit" 
+                        disabled={status.type === 'loading'}
+                        className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ${status.type === 'loading' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {status.type === 'loading' ? 'Submitting...' : 'Submit Application'}
                       </button>
                     </form>
                  </div>
