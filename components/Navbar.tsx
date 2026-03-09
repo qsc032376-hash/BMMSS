@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
     { id: 'about', label: 'About' },
     { id: 'leadership', label: 'Leadership' },
     { id: 'events', label: 'Events' },
-    { id: 'attendance', label: 'Attendance' },
+    { id: 'press', label: 'Press' },
     { id: 'ai-lab', label: 'AI Modeling Lab' },
     { id: 'contact', label: 'Join Us' },
   ];

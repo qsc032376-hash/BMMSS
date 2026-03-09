@@ -5,8 +5,8 @@ import GeminiModeler from './components/GeminiModeler';
 import EventsSection from './components/EventsSection';
 import LeadershipSection from './components/LeadershipSection';
 import Constitution from './components/Constitution';
-import AttendanceForm from './components/AttendanceForm';
-import { Mail, Github, Users, TrendingUp, BookOpen, Target, Code, Globe, ShieldCheck, FileText, Lock, Accessibility, Instagram } from 'lucide-react';
+import PressSection from './components/PressSection';
+import { Mail, Github, Users, TrendingUp, BookOpen, Target, Code, Globe, ShieldCheck, FileText, Lock, Accessibility, Instagram, MapPin } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -193,7 +193,7 @@ const App: React.FC = () => {
           <div className="max-w-6xl mx-auto px-4 py-12">
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4 border-l-8 border-[#BB0000] pl-4">Leadership Hierarchy</h2>
             <p className="text-gray-500 mb-10 max-w-3xl">
-              As defined in Article IV of the Constitution, the Executive Board consists of eight student officers and one Faculty Advisor. We are actively recruiting for the vacant positions below for our Fall 2026 launch.
+              As defined in Article VI of the Constitution, the Executive Board consists of seven (7) core positions and one Faculty Advisor. We are actively recruiting for the vacant positions below for our Fall 2026 launch.
             </p>
             <LeadershipSection />
           </div>
@@ -208,8 +208,8 @@ const App: React.FC = () => {
             <EventsSection />
           </div>
         );
-      case 'attendance':
-        return <AttendanceForm />;
+      case 'press':
+        return <PressSection />;
       case 'ai-lab':
         return (
           <div className="max-w-4xl mx-auto px-4 py-12">
@@ -360,9 +360,18 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-1 md:col-span-2">
               <span className="text-2xl font-bold tracking-tighter text-white">BMMSS</span>
-              <p className="text-gray-400 text-sm mt-2 max-w-xs">
+              <p className="text-gray-400 text-sm mt-2 max-w-xs mb-4">
                 Buckeyes Mathematical Modeling and Simulation Society at The Ohio State University.
               </p>
+              
+              {/* Added Address Section */}
+              <div className="flex items-start text-gray-400 text-sm mt-6">
+                <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0 text-[#BB0000]" />
+                <div>
+                  <p className="font-bold text-gray-200">Mathematics Building</p>
+                  <p>231 W. 18th Ave., Columbus, OH 43210</p>
+                </div>
+              </div>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Organization</h3>
