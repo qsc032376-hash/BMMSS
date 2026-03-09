@@ -241,6 +241,18 @@ const App: React.FC = () => {
                       <Github className="w-6 h-6 mr-4 text-[#BB0000]" />
                       <span className="font-medium">github.com/bmmss-osu</span>
                     </div>
+                    <a 
+                      href="https://www.google.com/maps/place/The+Ohio+State+University+Department+of+Mathematics/@40.0015687,-83.0171129,17z/data=!4m10!1m2!2m1!1sThe+Ohio+State+University+Department+of+Mathematics,+100+Math+Tower,+231+W+18th+Ave,+Columbus,+OH+43210!3m6!1s0x88388ebdfed94059:0xe193eba4e6959df4!8m2!3d40.0015037!4d-83.0146175!15sCmdUaGUgT2hpbyBTdGF0ZSBVbml2ZXJzaXR5IERlcGFydG1lbnQgb2YgTWF0aGVtYXRpY3MsIDEwMCBNYXRoIFRvd2VyLCAyMzEgVyAxOHRoIEF2ZSwgQ29sdW1idXMsIE9IIDQzMjEwkgEVdW5pdmVyc2l0eV9kZXBhcnRtZW504AEA!16s%2Fg%2F12hnzyf5x?entry=ttu&g_ep=EgoyMDI2MDMwNS4wIKXMDSoASAFQAw%3D%3D" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center text-gray-700 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <MapPin className="w-6 h-6 mr-4 text-[#BB0000]" />
+                      <div>
+                        <span className="font-medium block">Mathematics Building</span>
+                        <span className="text-gray-500 text-sm">231 W. 18th Ave., Columbus, OH 43210</span>
+                      </div>
+                    </a>
                  </div>
                  
                  <div className="mt-8 pt-8 border-t border-gray-100">
@@ -365,12 +377,19 @@ const App: React.FC = () => {
               </p>
               
               {/* Added Address Section */}
-              <div className="flex items-start text-gray-400 text-sm mt-6">
-                <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0 text-[#BB0000]" />
-                <div>
-                  <p className="font-bold text-gray-200">Mathematics Building</p>
-                  <p>231 W. 18th Ave., Columbus, OH 43210</p>
-                </div>
+              <div className="mt-6">
+                <a 
+                  href="https://www.google.com/maps/place/The+Ohio+State+University+Department+of+Mathematics/@40.0015687,-83.0171129,17z/data=!4m10!1m2!2m1!1sThe+Ohio+State+University+Department+of+Mathematics,+100+Math+Tower,+231+W+18th+Ave,+Columbus,+OH+43210!3m6!1s0x88388ebdfed94059:0xe193eba4e6959df4!8m2!3d40.0015037!4d-83.0146175!15sCmdUaGUgT2hpbyBTdGF0ZSBVbml2ZXJzaXR5IERlcGFydG1lbnQgb2YgTWF0aGVtYXRpY3MsIDEwMCBNYXRoIFRvd2VyLCAyMzEgVyAxOHRoIEF2ZSwgQ29sdW1idXMsIE9IIDQzMjEwkgEVdW5pdmVyc2l0eV9kZXBhcnRtZW504AEA!16s%2Fg%2F12hnzyf5x?entry=ttu&g_ep=EgoyMDI2MDMwNS4wIKXMDSoASAFQAw%3D%3D" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-start text-gray-400 text-sm hover:text-white transition-colors group"
+                >
+                  <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0 text-[#BB0000] group-hover:text-red-400" />
+                  <div>
+                    <p className="font-bold text-gray-200">Mathematics Building</p>
+                    <p>231 W. 18th Ave., Columbus, OH 43210</p>
+                  </div>
+                </a>
               </div>
             </div>
             <div>
