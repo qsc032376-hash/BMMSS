@@ -7,6 +7,7 @@ interface CalendarEvent {
   date: Date;
   type: 'academic' | 'holiday' | 'registration' | 'exam' | 'society';
   description?: string;
+  location?: string;
 }
 
 const EventsSection: React.FC = () => {
@@ -58,6 +59,16 @@ const EventsSection: React.FC = () => {
     { id: 'sb-27', title: 'Spring Break', date: new Date(2027, 2, 15), type: 'holiday' },
     { id: 'au-break-26', title: 'Autumn Break', date: new Date(2026, 9, 15), type: 'holiday' },
     { id: 'au-break-26b', title: 'Autumn Break', date: new Date(2026, 9, 16), type: 'holiday' },
+    
+    // Society Events
+    { 
+      id: 'welcome-meeting', 
+      title: 'New Org Welcome Meeting', 
+      date: new Date(2026, 2, 13, 14, 0), 
+      type: 'society', 
+      description: '2:00 PM - 2:20 PM',
+      location: 'Microsoft Team (Online)'
+    },
   ];
 
   const getStartOfWeek = (date: Date) => {
@@ -178,8 +189,13 @@ const EventsSection: React.FC = () => {
                   </div>
                   {days.map((day, i) => {
                     const dayEvents = getEventsForDay(day);
-                    // Standardize positioning of academic/exam markers in early slots
-                    const slotEvents = hour === 8 ? dayEvents : [];
+                    // Standardize positioning of academic/exam markers in early slots (8 AM)
+                    // Specific timed events go to their respective slots
+                    const slotEvents = dayEvents.filter(e => {
+                      const eventHour = e.date.getHours();
+                      if (eventHour === 0) return hour === 8;
+                      return eventHour === hour;
+                    });
 
                     return (
                       <div key={i} className="border-r border-gray-100 last:border-r-0 min-h-[5rem] relative hover:bg-gray-50/50 transition-colors p-1 overflow-hidden">
@@ -191,12 +207,22 @@ const EventsSection: React.FC = () => {
                               ${event.type === 'academic' ? 'bg-slate-100 text-slate-700 border-slate-200' : ''}
                               ${event.type === 'exam' ? 'bg-purple-50 text-purple-700 border-purple-200' : ''}
                               ${event.type === 'holiday' ? 'bg-amber-50 text-amber-700 border-amber-200' : ''}
+                              ${event.type === 'society' ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}
                             `}
                           >
                             <div className="flex items-center gap-1 mb-0.5">
-                              {(event.type === 'registration' || event.type === 'exam') && <Info className="w-2.5 h-2.5" />}
+                              {(event.type === 'registration' || event.type === 'exam' || event.type === 'society') && <Info className="w-2.5 h-2.5" />}
                               {event.title}
                             </div>
+                            {event.description && (
+                              <div className="text-[7px] opacity-80 mb-0.5">{event.description}</div>
+                            )}
+                            {event.location && (
+                              <div className="text-[7px] opacity-80 flex items-center gap-0.5 mb-1">
+                                <MapPin className="w-2 h-2" />
+                                {event.location}
+                              </div>
+                            )}
                             <span className="opacity-70 text-[8px] font-medium uppercase tracking-tighter">{event.type}</span>
                           </div>
                         ))}
