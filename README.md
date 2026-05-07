@@ -15,6 +15,17 @@ View your app in AI Studio: https://ai.studio/apps/fac54e75-80ab-4b18-b2ca-ae239
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Set the environment variables in `.env.local`:
+   - `GEMINI_API_KEY`: Gemini API key for the AI Modeling Lab
+   - `EMAIL_USER`: SMTP account username
+   - `EMAIL_PASS`: SMTP app password or SMTP password
+   - `ADMIN_EMAIL`: administrator email that receives new application notices
 3. Run the app:
    `npm run dev`
+
+## Backend features
+
+- `POST /api/apply` validates and stores each application in `data/applications.jsonl`.
+- New applications trigger an automatic administrator email through Nodemailer.
+- A maintenance job runs on the server interval to clean rate-limit state and rotate oversized application logs.
+- `GET /api/health` exposes a lightweight health check for deployment monitoring.
