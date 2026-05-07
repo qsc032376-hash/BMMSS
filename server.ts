@@ -33,6 +33,9 @@ const APPLICATIONS_FILE = path.join(DATA_DIR, "applications.jsonl");
 const MAINTENANCE_LOG_FILE = path.join(DATA_DIR, "maintenance.log");
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "qian.917@osu.edu";
 const EMAIL_FROM = process.env.EMAIL_FROM || process.env.EMAIL_USER;
+const EMAIL_HOST = process.env.EMAIL_HOST;
+const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
+const EMAIL_SECURE = process.env.EMAIL_SECURE === "true";
 const MAINTENANCE_INTERVAL_MS = Number(process.env.MAINTENANCE_INTERVAL_MS || 1000 * 60 * 60);
 const MAX_APPLICATION_FILE_BYTES = Number(process.env.MAX_APPLICATION_FILE_BYTES || 1024 * 1024 * 5);
 const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 1000 * 60 * 10);
@@ -82,6 +85,18 @@ async function appendMaintenanceLog(message: string) {
 function createTransporter() {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !EMAIL_FROM) {
     return null;
+  }
+
+  if (EMAIL_HOST) {
+    return nodemailer.createTransport({
+      host: EMAIL_HOST,
+      port: EMAIL_PORT,
+      secure: EMAIL_SECURE,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
   }
 
   return nodemailer.createTransport({
@@ -236,7 +251,11 @@ async function startServer() {
   });
 
   app.get("/api/health", (_req, res) => {
-    res.status(200).json({ ok: true, maintenanceIntervalMs: MAINTENANCE_INTERVAL_MS });
+    res.status(200).json({
+      ok: true,
+      emailConfigured: Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS && EMAIL_FROM),
+      maintenanceIntervalMs: MAINTENANCE_INTERVAL_MS,
+    });
   });
 
   // Vite middleware for development
@@ -256,6 +275,7 @@ async function startServer() {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Application notifications: ${EMAIL_FROM ? `configured for ${ADMIN_EMAIL}` : "not configured"}`);
   });
 
   startMaintenanceJob();
