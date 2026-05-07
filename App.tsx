@@ -10,7 +10,7 @@ import { Mail, Github, Users, TrendingUp, BookOpen, Target, Code, Globe, ShieldC
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', website: '' });
   const [status, setStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error', message?: string }>({ type: 'idle' });
 
   useEffect(() => {
@@ -231,14 +231,20 @@ const App: React.FC = () => {
             const response = await fetch('/api/apply', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(formData),
+              body: JSON.stringify({
+                name: formData.name.trim(),
+                email: formData.email.trim(),
+                message: formData.message.trim(),
+                website: formData.website,
+              }),
             });
 
+            const data = await response.json().catch(() => ({}));
+
             if (response.ok) {
-              setStatus({ type: 'success', message: 'Application submitted! Sicheng will be in touch soon.' });
-              setFormData({ name: '', email: '', message: '' });
+              setStatus({ type: 'success', message: data.success || 'Application submitted! Sicheng will be in touch soon.' });
+              setFormData({ name: '', email: '', message: '', website: '' });
             } else {
-              const data = await response.json();
               setStatus({ type: 'error', message: data.error || 'Failed to submit. Please try again.' });
             }
           } catch (error) {
@@ -283,6 +289,15 @@ const App: React.FC = () => {
                  <div className="mt-8 pt-8 border-t border-gray-100">
                     <h3 className="text-lg font-bold text-gray-900 mb-4">Application Form</h3>
                     <form className="space-y-6" onSubmit={handleSubmit}>
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={formData.website}
+                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        className="hidden"
+                        aria-hidden="true"
+                      />
                       <div>
                         <label className="block text-sm font-medium text-gray-700">Name</label>
                         <input 
@@ -331,7 +346,7 @@ const App: React.FC = () => {
 
                       <button 
                         type="submit" 
-                        disabled={status.type === 'loading'}
+                        disabled={status.type === 'loading' || !formData.name.trim() || !formData.email.trim()}
                         className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ${status.type === 'loading' ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         {status.type === 'loading' ? 'Submitting...' : 'Submit Application'}
