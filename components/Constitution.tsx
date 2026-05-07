@@ -350,20 +350,30 @@ const Constitution: React.FC = () => {
 
       {/* Signature Placeholder */}
       <div className="mt-24 pt-12 border-t border-gray-100 grid grid-cols-2 gap-12">
-        <div className="space-y-4 relative">
-          <div className="absolute -top-10 left-4">
-            <p className="font-['Dancing_Script'] text-4xl text-gray-800 opacity-90 transform -rotate-3 select-none">
-              Sicheng Qian
-            </p>
+        <div className="space-y-4 relative group">
+          <div className="absolute -top-14 left-4 transition-transform group-hover:scale-105 duration-500">
+            <div className="relative">
+              <p className="font-['Dancing_Script'] text-5xl text-gray-900 opacity-95 transform -rotate-3 select-none relative z-10">
+                Sicheng Qian
+              </p>
+              <svg className="absolute -bottom-2 -left-2 w-48 h-8 text-[#BB0000] opacity-20 -rotate-2" viewBox="0 0 200 40">
+                <path d="M10,20 Q50,10 90,25 T180,15" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </div>
           </div>
           <div className="h-px bg-gray-300 w-full"></div>
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Sicheng Qian, President</p>
         </div>
-        <div className="space-y-4 relative">
-          <div className="absolute -top-10 left-4">
-            <p className="font-['Dancing_Script'] text-4xl text-gray-800 opacity-90 transform -rotate-2 select-none">
-              Wonjun Lee
-            </p>
+        <div className="space-y-4 relative group">
+          <div className="absolute -top-14 left-4 transition-transform group-hover:scale-105 duration-500">
+            <div className="relative">
+              <p className="font-['Dancing_Script'] text-5xl text-gray-900 opacity-95 transform -rotate-1 select-none relative z-10">
+                Wonjun Lee
+              </p>
+              <svg className="absolute -bottom-2 -left-2 w-48 h-8 text-[#BB0000] opacity-20 rotate-1" viewBox="0 0 200 40">
+                <path d="M15,25 Q60,15 100,30 T190,20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </div>
           </div>
           <div className="h-px bg-gray-300 w-full"></div>
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Wonjun Lee, Faculty Advisor</p>
